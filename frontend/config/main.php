@@ -12,9 +12,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-	    'request' => [
+	    'request' => [   
 		    'baseUrl'=>'',
 		    'csrfParam' => '_csrf-frontend',
+            'enableCsrfValidation'=>false
         ],
         'user' => [
             'identityClass' => 'common\models\User',
