@@ -2,20 +2,16 @@
 
 namespace frontend\controllers;
 
-use frontend\models\PersonForm;
 use yii\web\Controller;
+use Yii;
 
 class PersonController extends Controller
 {
-    public function actionIndex(){
-        $model = new PersonForm();
-        if($model->load(\Yii::$app->request->post())){
-            if($model->validate() && $model->save()){
-                \Yii::$app->session->setFlash('success', 'Bazaga yozildi'); 
-                $model = new PersonForm();
-            }
-        }
+    public function actionIndex()
+    {
+        $command = Yii::$app->db->createCommand("SELECT * FROM person");
+        $result = $command->queryAll();
 
-        return $this->render('index', ['model'=>$model]);
+        return $this->render('index', ['data'=>$result]);
     }
 }
