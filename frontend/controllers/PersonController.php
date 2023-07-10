@@ -12,15 +12,16 @@ class PersonController extends Controller
     {
         return $this->render('index');
     }
- 
+  
     public function actionAdd()
     {
         $person = new Person();
-        $person->first_name = \Faker\Provider\en_US\Person::firstNameMale();
-        $person->last_name = \Faker\Provider\en_US\Person::firstNameMale();
-        $person->email = 'user@user.com';
-        $person->gender = \Faker\Provider\en_US\Person::GENDER_MALE;
-        $person->save(); // save() default true yani validatsiyadan otkazadi false bolsa togridan togri yozadi 
-        // shu korinishda SQL code yozmasdan person jadvaliga INSERT qilib beradi 
+        if ($person->load(Yii::$app->request->post())){ // object ka post dan kelayotkan malumotlarni yuklab oldik
+            if ($person->save()){
+                Yii::$app->session->setFlash("success", "Qo'shildi");
+                $this->redirect('person/index');
+            }
+        }
+        return $this->render('create', ['model'=>$person]);
     }
 }
