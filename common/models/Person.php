@@ -18,4 +18,9 @@ class Person extends ActiveRecord
             [['first_name', 'last_name', 'email'], 'string']
         ];
     }
+
+    public function afterFind()
+    {
+        
+    }
 }

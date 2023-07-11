@@ -11,17 +11,10 @@ class PersonController extends Controller
 {
     public function actionIndex()
     {
-        $email = 'user7@user.com';
-        $users = Person::find()->where(['email'=>$email])->one();
-        $users->email = 'test@user.com';
-        $users->save();
-        echo $users->getOldAttribute('email');
-
-
-        // $users = Person::findOne(4);
-        // $users->delete();
-
+        $users = Person::find()->where(['id'=>14])->one();
+  
         return $this->render('index', ['users_ar' => $users]);
+        die();
     }
   
     public function actionAdd()
