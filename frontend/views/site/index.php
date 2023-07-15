@@ -23,11 +23,30 @@ use yii\widgets\LinkPager;
                 echo "</br>";
             }
 
-            foreach ($model as $item)
-            {
-                echo $item->firstName .' | '. $item->lastName;
-                echo "</br>";
-            }
+            ?>
+
+            <table class="table">
+                <?php
+                foreach ($model as $item) {
+                    echo "<tr>";
+                    echo "<td>";
+                    echo $item->firstName;
+                    echo "</td>";
+                    echo "<td>";
+                    echo $item->lastName;
+                    echo "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+
+            <?php 
+
+            //foreach ($model as $item)
+            //{
+            //    echo $item->firstName .' | '. $item->lastName;
+            //    echo "</br>";
+            //}
 
             echo "</br>";
              echo LinkPager::widget([
