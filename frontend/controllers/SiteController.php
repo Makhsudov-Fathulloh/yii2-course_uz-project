@@ -19,6 +19,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\LoginRegisterForm;
 use yii\data\Pagination;
+use yii\data\Sort;
 
 /**
  * Site controller
@@ -88,8 +89,28 @@ class SiteController extends Controller
             'pageSize' => 2,
         ]);
 
-        $model = $query->limit($pagination->limit)->offset($pagination->offset)->all();
-        return $this->render('index', ['pagination' => $pagination, 'model' => $model]);
+        $sort = new Sort([
+            'attributes' => [
+                'firstName',
+                'lastName',
+                'fullName' => [
+                    'asc' => ['firstName' => SORT_ASC, 'lastName' => SORT_ASC],
+                    'desc' => ['firstName' => SORT_DESC, 'lastName' => SORT_DESC],
+                    'default' => SORT_DESC,
+                    'label' => 'Full Name',
+                ],
+            ],
+        ]);
+
+        $model = $query
+            ->orderBy($sort->orders)
+            ->limit($pagination->limit)
+            ->offset($pagination->offset)->all();
+
+        return $this->render('index', [
+            'pagination' => $pagination, 
+            'model' => $model, 
+            'sort' => $sort]);
     }
 
     /**
