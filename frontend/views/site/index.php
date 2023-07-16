@@ -63,5 +63,3 @@ use yii\widgets\LinkPager;
                 'prevPageLabel'=>'oldingi',
                 'nextPageLabel'=>'keyingi'
             ]);
-
-      

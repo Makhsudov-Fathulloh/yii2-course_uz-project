@@ -18,6 +18,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\LoginRegisterForm;
+use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\data\Sort;
 
@@ -111,6 +112,21 @@ class SiteController extends Controller
             'pagination' => $pagination, 
             'model' => $model, 
             'sort' => $sort]);
+    }
+
+    public function actionDataprovider()
+    {
+        $query = Employees::find();
+        $sort = new Sort();
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination'=>[
+                'pageSize' => 2,
+            ],
+            'sort' => $sort
+        ]);
+
+        return $this->render('dataprovider', ['dataProvider' => $provider]);
     }
 
     /**
