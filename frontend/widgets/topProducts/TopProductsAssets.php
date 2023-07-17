@@ -14,4 +14,9 @@ class TopProductsAssets extends AssetBundle
     public $js = [
         'js/topProduct.js'
     ];
+
+    // css bilan ishlashda yordam beradi 
+    public $publishOptions = [
+        'forceCopy'=>YII_DEBUG
+    ];
 }

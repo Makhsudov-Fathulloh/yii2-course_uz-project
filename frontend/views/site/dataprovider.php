@@ -1,7 +1,7 @@
 <?php
 
 // echo \frontend\widgets\topProducts\TopProducts::widget(['ism' => 'Linux']);
-echo \frontend\widgets\topProducts\TopProducts::widget(['ism' => 'Linux']);
+echo \frontend\widgets\topProducts\TopProducts::widget(['count' => 10]);
 echo "</br>";
 
 /**
