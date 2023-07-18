@@ -19,6 +19,7 @@ echo "</br>";
  echo $dataProvider->sort->link('lastName');
  echo "</th>";
  echo "</tr>";
+ 
  foreach ($model as $item)
  {
     echo "<tr>";
