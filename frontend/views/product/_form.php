@@ -4,26 +4,27 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var common\models\Products $model */
+/** @var common\models\Product $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="products-form">
+<div class="product-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'id')->textInput() ?>
+    <?php $form = ActiveForm::begin([
+            'id' => 'pr-form',
+    ]); ?>
 
     <?= $form->field($model, 'productCode')->textInput() ?>
 
     <?= $form->field($model, 'productName')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'category')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'),
+            ['class' => 'btn btn-success', 'id' => 'save-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

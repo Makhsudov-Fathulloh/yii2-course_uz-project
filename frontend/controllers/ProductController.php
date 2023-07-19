@@ -2,16 +2,17 @@
 
 namespace frontend\controllers;
 
-use common\models\Products;
-use common\models\searchProducts;
+use common\models\Product;
+use common\models\ProductSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProductsController implements the CRUD actions for Products model.
+ * ProductController implements the CRUD actions for Product model.
  */
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +33,13 @@ class ProductsController extends Controller
     }
 
     /**
-     * Lists all Products models.
+     * Lists all Product models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new searchProducts();
+        $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,8 +49,8 @@ class ProductsController extends Controller
     }
 
     /**
-     * Displays a single Products model.
-     * @param int $id
+     * Displays a single Product model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -61,21 +62,52 @@ class ProductsController extends Controller
     }
 
     /**
-     * Creates a new Products model.
+     * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Products();
+        $model = new Product();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                      //2//
+//--------------------start--------------------//
+//        Yii::$app->response->format = yii\web\Response::FORMAT_JSON; // xozirgi xolatimizda console ga json data qaytarsin
+//        if (Yii::$app->request->isAjax) {
+//            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//                return $this->redirect(['view', 'id' => $model->product]);
+//            }
+//            return $this->renderAjax('_form', ['model' => $model]); // ajax kelganda faqat _form ning ichidagi data kelsin xolos
+//        }
+//--------------------end--------------------//
+
+                      /////
+//--------------------start--------------------//
+
+        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $result['status'] = false;
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $result['status'] = true;
+                return $result;
             }
-        } else {
-            $model->loadDefaultValues();
+
+            $result['content'] = $this->renderAjax('_form', ['model' => $model]);
+            return $result;
         }
+//--------------------end--------------------//
+
+
+                      //1/original/
+//--------------------start--------------------//
+//        if ($this->request->isPost) {
+//            if ($model->load($this->request->post()) && $model->save()) {
+//                return $this->redirect(['index', 'id' => $model->id]);
+//            }
+//        } else {
+//            $model->loadDefaultValues();
+//        }
+//--------------------end--------------------//
 
         return $this->render('create', [
             'model' => $model,
@@ -83,9 +115,9 @@ class ProductsController extends Controller
     }
 
     /**
-     * Updates an existing Products model.
+     * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -103,9 +135,9 @@ class ProductsController extends Controller
     }
 
     /**
-     * Deletes an existing Products model.
+     * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -117,18 +149,18 @@ class ProductsController extends Controller
     }
 
     /**
-     * Finds the Products model based on its primary key value.
+     * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id
-     * @return Products the loaded model
+     * @param int $id ID
+     * @return Product the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Products::findOne(['id' => $id])) !== null) {
+        if (($model = Product::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

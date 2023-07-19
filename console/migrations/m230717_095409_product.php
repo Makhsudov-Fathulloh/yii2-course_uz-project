@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m230717_095409_products
  */
-class m230717_095409_products extends Migration
+class m230717_095409_product extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,7 @@ class m230717_095409_products extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%products}}', [
+        $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
             'productCode' => $this->integer()->notNull()->unique(),
             'productName' => $this->string()->notNull(),
@@ -32,7 +32,7 @@ class m230717_095409_products extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%products}}');
+        $this->dropTable('{{%product}}');
 
         return false;
     }

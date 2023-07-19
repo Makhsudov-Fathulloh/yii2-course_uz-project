@@ -1,32 +1,61 @@
 <?php
 
-/**
- * @var \yii\data\ActiveDataProvider $dataProvider
- */
+use common\models\Product;
+use yii\bootstrap5\Modal;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+/** @var yii\web\View $this */
+/** @var common\models\ProductSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
- echo "<div class='row'>";
- echo $dataProvider->sort->link('productCode');
- echo $dataProvider->sort->link('productName');
- echo \yii\widgets\ListView::widget([
-    'dataProvider' => $dataProvider,
-    // itemda 1 malumotni olib unga css shunga oxshagan o'zgarish qilishimiz mumkun, shu nomdagi view nilan 
-    'itemView' => 'item',
-    'options' => [
-        'tag' => 'div',
-        'class' => 'list-wrapper',
-        'id' => 'list-wrapper',
-    ],
-    'layout' => "{summary}\n{items}\n{pager}", 
-    // 'summary' => 'Jami <b>{totalCount}</b> tadan {count} tasi ko`rsatilyapti',
-    'pager' => [
-        'firstPageLabel' => 'first ',
-        'lastPageLabel' => ' last',
-        'nextPageLabel' => ' next ',
-        'prevPageLabel' => ' prev ',
-        'maxButtonCount' => 3,
-    ],
+$this->title = Yii::t('app', 'Products');
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="product-index">
 
- ]);
- echo "</div>";
- 
- 
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Product'),
+            ['create'],
+            ['class' => 'btn btn-success', 'id' => 'create-button']) ?>
+    </p>
+
+    <?php Pjax::begin(['id' => 'pr-pjax']); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'productCode',
+            'productName',
+            'size',
+            'category',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Product $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+    <?php Pjax::end(); ?>
+
+</div>
+
+<?php
+Modal::begin([
+   'title' => '<h4>title</h4>',
+   'id' => 'myModal',
+   'size' => 'modal-lg',
+]);
+
+echo "<div id='modalContent'>Content</div>";
+Modal::end();

@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Products;
+use common\models\Product;
 
 /**
- * searchProducts represents the model behind the search form of `common\models\Products`.
+ * ProductSearch represents the model behind the search form of `common\models\Product`.
  */
-class searchProducts extends Products
+class ProductSearch extends Product
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class searchProducts extends Products
     {
         return [
             [['id', 'productCode'], 'integer'],
-            [['productName', 'image', 'category'], 'safe'],
+            [['productName', 'size', 'category'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class searchProducts extends Products
      */
     public function search($params)
     {
-        $query = Products::find();
+        $query = Product::find();
 
         // add conditions that should always apply here
 
@@ -63,7 +63,7 @@ class searchProducts extends Products
         ]);
 
         $query->andFilterWhere(['like', 'productName', $this->productName])
-            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'size', $this->size])
             ->andFilterWhere(['like', 'category', $this->category]);
 
         return $dataProvider;
