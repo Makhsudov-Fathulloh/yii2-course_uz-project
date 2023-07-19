@@ -84,16 +84,17 @@ class ProductController extends Controller
                       /////
 //--------------------start--------------------//
 
-        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
-            $result['status'] = false;
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                $result['status'] = true;
-                return $result;
+        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;                        // response (javob) type json qildik
+        if (Yii::$app->request->isAjax) {                                                   // kelayotkan request ajax orqali kelayotkan bolsa bolsa
+            $result['status'] = false;                                                      // $result['status'] = false olsin
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {               // postdan malumot kelib, validatsiyadan otib save bolsa
+                $result['status'] = true;                                                   // $result['status'] = true bo'lsin
+                return $result;                                                             //  $result ni json return qilsin
             }
 
-            $result['content'] = $this->renderAjax('_form', ['model' => $model]);
-            return $result;
+            $result['content'] = $this->renderAjax('_form', ['model' => $model]);      // post kelmasa,  renderAjax orqali _form bilan birga
+                                                                                            // model contentni olib ['content'] uzgaruvchiga return qiladi
+            return $result;                                                                 // hosil bolgan arrayni jsonda return qiladi
         }
 //--------------------end--------------------//
 
@@ -124,10 +125,25 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;               // response (javob) type json qildik
+        if (Yii::$app->request->isAjax) {                                          // kelayotkan request ajax orqali kelayotkan bolsa bolsa
+            $result['status'] = false;                                             // kelayotkan request ajax orqali kelayotkan bolsa bolsa
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {      // postdan malumot kelib, validatsiyadan otib save bolsa
+                $result['status'] = true;                                          // $result['status'] = true bo'lsin
+                return $result;                                                    //  $result ni json return qilsin
+            }
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $result['content'] = $this->renderAjax('_form', ['model' => $model]); // post kelmasa,  renderAjax orqali _form bilan birga
+                                                                                       // model contentni olib ['content'] uzgaruvchiga return qiladi
+            return $result;                                                            // hosil bolgan arrayni jsonda return qiladi
         }
+
+                  //1/original/
+//--------------------start--------------------//
+//        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//--------------------start--------------------//
 
         return $this->render('update', [
             'model' => $model,

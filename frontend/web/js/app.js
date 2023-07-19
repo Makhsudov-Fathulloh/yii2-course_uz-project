@@ -1,4 +1,4 @@
-//1//
+// actionCreate //1//
 //--------------------start--------------------//
 // $('#create-button').on('click', function (event) { // click bolganda
 //      event.preventDefault(); // default hrefni ochirib qoyadi
@@ -69,9 +69,18 @@ function send(_url, formData=null){
                     return false; // funksiya bajarilgach chiqibketsin
                 } else {
                     $.pjax.reload({container: "#pr-pjax"}); // save qilingach index oynani yangila
-                    $('#myModal').modal('hide');
+                    $('#myModal').modal('hide'); // hide modalni yopadi
                 }
             }
     });
 }
 // --------------------end--------------------//
+
+// actionUpdate //1//
+// --------------------end--------------------//
+$('body').on('click', '.update-pline', function (event){ // bodyda update-pline class bor bolgan elemenlar click bolganda
+    event.preventDefault(); // default hrefni ochirib qoyadi
+    var url = $(this).attr('href'); // click bolgan elementning (a href) attributini olsin
+    $('#myModal').modal('show'); // show modalni korsatadi
+    send(url); // send() function ishlasin
+});
