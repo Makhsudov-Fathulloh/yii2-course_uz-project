@@ -14,7 +14,6 @@ class PersonController extends Controller
         $users = Person::find()->where(['id'=>14])->one();
   
         return $this->render('index', ['users_ar' => $users]);
-        die();
     }
   
     public function actionAdd()
