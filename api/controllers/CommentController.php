@@ -1,14 +1,20 @@
 <?php
 
-namespace frontend\controllers;
+namespace api\controllers;
 
-use frontend\resource\Comment;
+use api\resource\Comment;
 use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 
-class CommentController extends ActiveController
+class CommentController extends MyActiveController
 {
     public $modelClass = Comment::class;
+
+//    public $serializer = [
+//        'class' => 'yii\rest\Serializer',
+//        'collectionEnvelope' => 'data',
+//    ];
+
+    public $serializer = ["class" => 'common\components\Serializer'];
 
     public function actions(): array
     {

@@ -14,12 +14,12 @@ class m130524_201442_user extends Migration
 
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
-            'first_name' => $this->string()->notNull()->unique(),
-            'last_name' => $this->string()->notNull()->unique(),
+            'first_name' => $this->string(),
+            'last_name' => $this->string(),
             'username' => $this->string()->notNull(),
             'role' => $this->string()->defaultValue('client'),
             'auth_key' => $this->string(32)->notNull(),
-            'phone' => $this->string()->notNull()->unique(),
+            'access_token' => $this->string(512),
             'email' => $this->string()->notNull()->unique(),
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
@@ -35,24 +35,9 @@ class m130524_201442_user extends Migration
             'username' => "admin",
             'role' => 'admin',
             'auth_key' => Yii::$app->security->generateRandomString(),
-            'phone' => '998901234567',
+            'access_token' => Yii::$app->security->generateRandomString(),
             'email' => 'admin@mail.com',
-            'password_hash' => Yii::$app->security->generatePasswordHash('admin'),
-            'password_reset_token' => Yii::$app->security->generateRandomString(64),
-
-            'status' => \common\models\User::STATUS_ACTIVE,
-            'created_at' => date('U'),
-            'updated_at' => date('U'),
-        ]);
-
-        $this->insert('{{%user}}', [
-            'first_name' => "Client",
-            'last_name' => "User",
-            'username' => "user",
-            'auth_key' => Yii::$app->security->generateRandomString(),
-            'phone' => '998991234567',
-            'email' => 'user@mail.com',
-            'password_hash' => Yii::$app->security->generatePasswordHash('user'),
+            'password_hash' => Yii::$app->security->generatePasswordHash('admin12345'),
             'password_reset_token' => Yii::$app->security->generateRandomString(64),
 
             'status' => \common\models\User::STATUS_ACTIVE,

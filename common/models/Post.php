@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
 
@@ -24,7 +25,7 @@ class Post extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%post}}';
     }
@@ -32,13 +33,14 @@ class Post extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
+            TimestampBehavior::class,
             [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    BaseActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
-                ],
-
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+//                'attributes' => [
+//                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+//                    BaseActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+//                ],
             ],
         ];
     }

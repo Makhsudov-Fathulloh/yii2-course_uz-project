@@ -7,23 +7,29 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'app-api',
     'basePath' => dirname(__DIR__),
+    'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'frontend\controllers',
+    'modules' => [],
     'components' => [
-	    'request' => [
-		    'csrfParam' => '_csrf-frontend',
-             'enableCsrfValidation'=>false,
+        'request' => [
+            'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => yii\web\JsonParser::class
+            ],
+        ],
+        'response' => [
+            'class' => 'yii\web\Response',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-api', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            // this is the name of the session cookie used for login on the backend
+            'name' => 'advanced-api',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -37,14 +43,19 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
+                ['class' => \yii\rest\UrlRule::class, 'controller' => ['post','comment']],
+                [
+                    'pattern' => 'posts/<postId:\d+>/comments',
+                    'route' => 'comment/index'
+                ]
             ],
         ],
+
     ],
     'params' => $params,
 ];
